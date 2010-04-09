@@ -24,7 +24,10 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "lib/models/calculation.rb",
+     "lib/models/rating.rb",
      "lib/trueskill.rb",
+     "spec/models/rating_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
      "spec/trueskill_spec.rb",
@@ -36,7 +39,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{A library for the trueskill rating system}
   s.test_files = [
-    "spec/spec_helper.rb",
+    "spec/models/rating_spec.rb",
+     "spec/spec_helper.rb",
      "spec/trueskill_spec.rb"
   ]
 
@@ -46,11 +50,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_runtime_dependency(%q<narray>, [">= 0.5.9.7"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_dependency(%q<narray>, [">= 0.5.9.7"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
+    s.add_dependency(%q<narray>, [">= 0.5.9.7"])
   end
 end
 
