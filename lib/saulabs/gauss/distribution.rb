@@ -35,18 +35,17 @@ module Saulabs
       
         def log_product_normalisation(x, y)
           return 0.0 if x.precision == 0.0 || y.precision == 0.0
-          vsum = x.variance + y.variance
-          mdiff = x.mean - y.mean
-          -0.91893853320467267 - Math.log(vsum) / 2.0 - mdiff * mdiff / 2.0 * vsum
+          variance_sum = x.variance + y.variance
+          mean_diff = x.mean - y.mean
+          -Functions::LOG_SQRT_2PI - (Math.log(variance_sum) / 2.0) - (mean_diff**2 / 2.0 * variance_sum)
         end
       
         def log_ratio_normalisation(x, y)
           return 0.0 if x.precision == 0.0 || y.precision == 0.0
-          v2 = y.variance
-          vdiff = v2 - x.variance
-          return 0.0 if vdiff == 0.0
-          mdiff = x.mean - y.mean
-          Math.log(v2) + 0.91893853320467267 - Math.log(vdiff) / 2.0 + mdiff * mdiff / 2.0 * vdiff
+          variance_diff = y.variance - x.variance
+          return 0.0 if variance_diff == 0.0
+          mean_diff = x.mean - y.mean
+          Math.log(y.variance) + Functions::LOG_SQRT_2PI - (Math.log(variance_diff) / 2.0) + (mean_diff**2 / 2.0 * variance_diff)
         end
       
       end
@@ -74,6 +73,10 @@ module Saulabs
   
       def equals(other)
         self == other
+      end
+      
+      def to_s
+        "[μ=#{'%.4f' % mean}, σ=#{'%.4f' % deviation}]"
       end
   
     end

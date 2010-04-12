@@ -15,6 +15,8 @@ module Saulabs
       num_players = skills.size
       epsilon = -Math.sqrt(2.0 * beta2) * Gauss::Functions.inv_cdf((1.0 - draw_prob) / 2.0)
       factors = []
+      variables = []
+      
     end
   
   end

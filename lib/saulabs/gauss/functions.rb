@@ -4,6 +4,7 @@ module Saulabs
       
       SQRT2 = Math.sqrt(2).freeze
       INV_SQRT_2PI = (1 / Math.sqrt(2 * Math::PI)).freeze
+      LOG_SQRT_2PI = Math.log(Math.sqrt(2 * Math::PI)).freeze
       
       class << self
         
