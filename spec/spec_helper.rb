@@ -1,10 +1,7 @@
 require 'rubygems'
 require 'spec'
 require 'spec/autorun'
-
-Dir["#{File.dirname(__FILE__)}/../lib/**/*.rb"].each do |filename| 
-  require filename
-end
+require "#{File.dirname(__FILE__)}/../lib/saulabs/trueskill.rb"
 
 Spec::Runner.configure do |config|
   
