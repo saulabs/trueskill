@@ -4,12 +4,25 @@ module Saulabs
       
       class Base
       
-        attr_accessor :factors, :output, :input
+        attr_accessor :graph, :factors, :output, :input
       
-        def initialize
+        def initialize(graph)
+          @graph = graph
           @factors = []
           @output = []
           @input = []
+        end
+        
+        def build
+          raise "Abstract method Layers::Base#build called"
+        end
+        
+        def create_prior_schedule
+          nil
+        end
+        
+        def create_posterior_schedule
+          nil
         end
       
       end

@@ -24,6 +24,10 @@ module Saulabs
           dist.precision_mean = dist.precision * mean
           return dist
         end
+        
+        def with_variance(mean, variance)
+          Distribution.with_deviation(mean, Math.sqrt(variance))
+        end
   
         def with_precision(mean, precision)
           Distribution.with_deviation(mean / precision, Math.sqrt(1 / precision))
@@ -49,13 +53,22 @@ module Saulabs
         end
       
       end
+      
+      # copy values from other distribution
+      def absorb!(other)
+        @precision = other.precision
+        @precision_mean = other.precision_mean
+        @mean = other.mean
+        @deviation = other.deviation
+        @variance = other.variance
+      end
   
       def *(other)
-        Rating.with_precision(self.precision_mean + other.precision_mean, self.precision + other.precision)
+        Distribution.with_precision(self.precision_mean + other.precision_mean, self.precision + other.precision)
       end
   
       def /(other)
-        Rating.with_precision(self.precision_mean - other.precision_mean, self.precision - other.precision)
+        Distribution.with_precision(self.precision_mean - other.precision_mean, self.precision - other.precision)
       end
   
       # absolute difference

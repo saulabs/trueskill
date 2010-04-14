@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Saulabs::Gauss::Distribution, "#with_deviation" do
+describe Gauss::Distribution, "#with_deviation" do
   
   before :each do 
-    @dist = Saulabs::Gauss::Distribution.with_deviation(25.0, 8.333333)
+    @dist = Gauss::Distribution.with_deviation(25.0, 8.333333)
   end
 
   it "should have a default mean value of 25.0" do
@@ -28,10 +28,10 @@ describe Saulabs::Gauss::Distribution, "#with_deviation" do
   
 end
   
-describe Saulabs::Gauss::Distribution, "#with_precision" do
+describe Gauss::Distribution, "#with_precision" do
   
   before :each do 
-    @dist = Saulabs::Gauss::Distribution.with_precision(0.36, 0.0144)
+    @dist = Gauss::Distribution.with_precision(0.36, 0.0144)
   end
 
   it "should have a default mean value of 25.0" do
@@ -56,10 +56,10 @@ describe Saulabs::Gauss::Distribution, "#with_precision" do
   
 end
 
-describe Saulabs::Gauss::Distribution, "absolute difference (-)" do
+describe Gauss::Distribution, "absolute difference (-)" do
   
   before :each do 
-    @dist = Saulabs::Gauss::Distribution.with_deviation(25.0, 8.333333)
+    @dist = Gauss::Distribution.with_deviation(25.0, 8.333333)
   end
   
   it "should be 0.0 for the same distribution" do
@@ -67,7 +67,21 @@ describe Saulabs::Gauss::Distribution, "absolute difference (-)" do
   end
   
   it "should equal the precision mean if the 0-distribution is subtracted" do
-    (@dist - Saulabs::Gauss::Distribution.new).should == @dist.precision_mean
+    (@dist - Gauss::Distribution.new).should == @dist.precision_mean
+  end
+  
+end
+
+describe Gauss::Distribution, "#absorb!" do
+  
+  before :each do 
+    @dist1 = Gauss::Distribution.with_deviation(25.0, 8.333333)
+    @dist2 = Gauss::Distribution.with_deviation(9.0, 4)
+  end
+  
+  it "should be equal to the absorbed distribution" do
+    @dist1.absorb!(@dist2)
+    @dist1.should == @dist2
   end
   
 end

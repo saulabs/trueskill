@@ -2,19 +2,26 @@ module Saulabs
   module TrueSkill
     module Layers
     
-      class PriorToSkills
+      class PriorToSkills < Base
       
-        def initialize(teams)
-          super
-          teams.each do |team|
+        def initialize(graph, teams)
+          super(graph)
+          @teams = teams
+        end
+        
+        def build
+          @teams.each do |team|
             team_skills = []
             team.each do |skill|
-              variable = Saulabs::TrueSkill::FactorGraphs::Variable.new()
-              @layers << Saulabs::TrueSkill::Factors::Prior.new(skill.mean, skill.deviation**2 + Saulabs::TrueSkill.tau, variable)
+              @factors << Factors::Prior.new(skill.mean, skill.variance + @graph.tau_squared, Gauss::Distribution.new)
               team_skills << skill
             end
             @output << team_skills
           end
+        end
+        
+        def create_prior_schedule
+          Schedules::Sequence.new(@factors.map { |f| Schedules::Step.new(f, 0) })
         end
         
       end
