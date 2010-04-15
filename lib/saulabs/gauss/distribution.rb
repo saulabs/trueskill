@@ -55,7 +55,7 @@ module Saulabs
       end
       
       # copy values from other distribution
-      def absorb!(other)
+      def replace(other)
         @precision = other.precision
         @precision_mean = other.precision_mean
         @mean = other.mean

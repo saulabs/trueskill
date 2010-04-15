@@ -13,8 +13,9 @@ module Saulabs
           @teams.each do |team|
             team_skills = []
             team.each do |skill|
-              @factors << Factors::Prior.new(skill.mean, skill.variance + @graph.tau_squared, Gauss::Distribution.new)
-              team_skills << skill
+              variable = Gauss::Distribution.new
+              @factors << Factors::Prior.new(skill.mean, skill.variance + @graph.tau_squared, variable)
+              team_skills << variable
             end
             @output << team_skills
           end

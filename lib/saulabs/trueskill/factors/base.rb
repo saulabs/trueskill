@@ -9,6 +9,7 @@ module Saulabs
         def initialize
           @messages = []
           @bindings = {}
+          @priors = []
         end
         
         def update_message_at(idx)
@@ -29,22 +30,21 @@ module Saulabs
         end
         
         def reset_marginals
-          @bindings.values.each { |var| var.absorb!(Gauss::Distribution.with_deviation(0.0, 0.0)) }
+          @bindings.values.each { |var| var.replace(Gauss::Distribution.new) }
         end
         
         def send_message_at(idx)
           self.send_message(@messages[idx], @bindings[@messages[idx]])
         end
         
-        # message: normal distribution
         def send_message(message, variable)
-          log_z = Saulabs::Gauss::Distribution.log_product_normalisation(message, variable)
-          variable.absorb!(message * variable)
+          log_z = Gauss::Distribution.log_product_normalisation(message, variable)
+          variable.replace(message * variable)
           return log_z
         end
         
         def bind(variable)
-          message = Saulabs::Gauss::Distribution.new
+          message = Gauss::Distribution.new
           @messages << message
           @bindings[message] = variable
           return message

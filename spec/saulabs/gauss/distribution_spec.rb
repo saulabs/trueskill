@@ -72,15 +72,15 @@ describe Gauss::Distribution, "absolute difference (-)" do
   
 end
 
-describe Gauss::Distribution, "#absorb!" do
+describe Gauss::Distribution, "#replace" do
   
   before :each do 
     @dist1 = Gauss::Distribution.with_deviation(25.0, 8.333333)
     @dist2 = Gauss::Distribution.with_deviation(9.0, 4)
   end
   
-  it "should be equal to the absorbed distribution" do
-    @dist1.absorb!(@dist2)
+  it "should be equal to the replaced distribution" do
+    @dist1.replace(@dist2)
     @dist1.should == @dist2
   end
   

@@ -17,8 +17,8 @@ module Saulabs
                            variable.precision + @message.precision - message.precision
                          )
           diff = variable - message
-          variable.absorb!(new_marginal)
-          message.absorb!(@message)
+          variable.replace(new_marginal)
+          message.replace(@message)
           return diff
         end
         
