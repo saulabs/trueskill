@@ -4,14 +4,16 @@ module Saulabs
       
       class Prior < Base
         
-        # 
         def initialize(mean, variance, variable)
           super()
           @message = Gauss::Distribution.with_variance(mean, variance)
           bind(variable)
         end
         
-        def update_message(message, variable)
+        def update_message_at(index)
+          raise "illegal message index: #{index}" if index < 0 || index > 0
+          message = @messages[index]
+          variable = @bindings[@messages[index]]
           new_marginal = Gauss::Distribution.with_precision(
                            variable.precision_mean + @message.precision_mean - message.precision_mean,
                            variable.precision + @message.precision - message.precision
@@ -22,8 +24,8 @@ module Saulabs
           return diff
         end
         
-        def message_count
-          1
+        def log_normalization
+          0.0
         end
         
       end

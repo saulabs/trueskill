@@ -17,11 +17,13 @@ module Saulabs
       
         def with_deviation(mean, deviation)
           dist = Distribution.new
-          dist.mean = mean
-          dist.deviation = deviation
-          dist.variance = deviation * deviation
-          dist.precision = 1 / dist.variance.to_f
-          dist.precision_mean = dist.precision * mean
+          if !mean.to_f.nan? and !deviation.to_f.nan? and deviation != 0.0
+            dist.mean = mean
+            dist.deviation = deviation
+            dist.variance = deviation * deviation
+            dist.precision = 1 / dist.variance.to_f
+            dist.precision_mean = dist.precision * mean
+          end
           return dist
         end
         
@@ -37,14 +39,14 @@ module Saulabs
           [(x.precision_mean - y.precision_mean).abs, Math.sqrt((x.precision - y.precision).abs)].max
         end
       
-        def log_product_normalisation(x, y)
+        def log_product_normalization(x, y)
           return 0.0 if x.precision == 0.0 || y.precision == 0.0
           variance_sum = x.variance + y.variance
           mean_diff = x.mean - y.mean
           -Functions::LOG_SQRT_2PI - (Math.log(variance_sum) / 2.0) - (mean_diff**2 / 2.0 * variance_sum)
         end
       
-        def log_ratio_normalisation(x, y)
+        def log_ratio_normalization(x, y)
           return 0.0 if x.precision == 0.0 || y.precision == 0.0
           variance_diff = y.variance - x.variance
           return 0.0 if variance_diff == 0.0

@@ -21,7 +21,7 @@ module Saulabs
           end
         end
         
-        def create_prior_schedule
+        def prior_schedule
           Schedules::Sequence.new(@factors.map { |f| Schedules::Step.new(f, 0) })
         end
         

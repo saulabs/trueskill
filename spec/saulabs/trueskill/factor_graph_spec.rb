@@ -4,7 +4,7 @@ describe Saulabs::TrueSkill::FactorGraph do
   
   before :each do
     @teams = create_teams
-    @graph = TrueSkill::FactorGraph.new(@teams, :tau => 0.1, :beta => 20, :draw_probability => 0.0)
+    @graph = TrueSkill::FactorGraph.new(@teams, :tau => 0.5, :beta => 0.1, :draw_probability => 0.0)
   end
   
   describe "#evaluate" do

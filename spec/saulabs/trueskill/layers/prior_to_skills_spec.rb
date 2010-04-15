@@ -24,14 +24,14 @@ describe TrueSkill::Layers::PriorToSkills do
     
   end
   
-  describe "#create_prior_schedule" do
+  describe "#prior_schedule" do
     
     before :each do 
       @layer.build
     end
     
     it "should return a sequence-schedule" do
-      @layer.create_prior_schedule.should be_kind_of(TrueSkill::Schedules::Sequence)
+      @layer.prior_schedule.should be_kind_of(TrueSkill::Schedules::Sequence)
     end
     
   end

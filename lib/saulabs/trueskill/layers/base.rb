@@ -17,11 +17,11 @@ module Saulabs
           raise "Abstract method Layers::Base#build called"
         end
         
-        def create_prior_schedule
+        def prior_schedule
           nil
         end
         
-        def create_posterior_schedule
+        def posterior_schedule
           nil
         end
       

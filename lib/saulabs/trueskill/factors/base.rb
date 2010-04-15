@@ -12,21 +12,12 @@ module Saulabs
           @priors = []
         end
         
-        def update_message_at(idx)
-          raise "illegal message index: #{idx}" if idx < 0 || idx > message_count-1
-          update_message(@messages[idx], @bindings[@messages[idx]])
+        def update_message_at(index)
+          raise "Abstract method Factors::Base#update_message_at(index) called"
         end
         
-        def update_message(message, variable)
-          raise "Abstract method Factors::Base#update_message(message, variable) called"
-        end
-        
-        def message_count
-          0
-        end
-        
-        def log_normalisation
-          0.0
+        def log_normalization
+          raise "Abstract method Factors::Base#log_normalization called"
         end
         
         def reset_marginals
@@ -38,7 +29,7 @@ module Saulabs
         end
         
         def send_message(message, variable)
-          log_z = Gauss::Distribution.log_product_normalisation(message, variable)
+          log_z = Gauss::Distribution.log_product_normalization(message, variable)
           variable.replace(message * variable)
           return log_z
         end

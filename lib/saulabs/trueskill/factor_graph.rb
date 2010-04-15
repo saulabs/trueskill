@@ -15,30 +15,31 @@ module Saulabs
         
         @prior_layer = Layers::PriorToSkills.new(self, teams)
         @layers = [
-          @prior_layer
+          @prior_layer,
+          Layers::SkillsToPerformances.new(self)
         ]
       end
       
       def evaluate
         build_layers
         run_schedule
+        puts "#{@layers.last.output.flatten.map(&:to_s).join(", ")}<br>"
         [ranking_probability, updated_skills]
       end
       
     private
       
       def ranking_probability
-        factor_list = []
-        sum_log_z = 0.0
-        sum_log_s = 0.0
-        @layers.each do |layer|
-          layer.factors.each do |factor|
-            factor.reset_marginals
-            factor.messages.each_index { |i| sum_log_z += factor.send_message_at(i) }
-            sum_log_s += factor.log_normalisation
-          end
-        end
-        Math.exp(sum_log_z + sum_log_s)
+        # factor_list = []
+        # sum_log_z, sum_log_s = 0.0
+        # @layers.each do |layer|
+        #   layer.factors.each do |factor|
+        #     factor.reset_marginals
+        #     factor.messages.each_index { |i| sum_log_z += factor.send_message_at(i) }
+        #     sum_log_s += factor.log_normalization
+        #   end
+        # end
+        # Math.exp(sum_log_z + sum_log_s)
       end
       
       def updated_skills
@@ -55,13 +56,7 @@ module Saulabs
       end
       
       def run_schedule
-        schedules = []
-        @layers.each do |layer|
-          schedules << layer.create_prior_schedule
-        end
-        @layers.reverse.each do |layer|
-          schedules << layer.create_posterior_schedule
-        end
+        schedules = @layers.map(&:prior_schedule) + @layers.reverse.map(&:posterior_schedule)
         Schedules::Sequence.new(schedules.compact).visit
       end
       
