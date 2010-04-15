@@ -3,27 +3,36 @@ module Saulabs
     
     class FactorGraph
       
-      attr_reader :beta, :beta_squared, :tau, :tau_squared, :draw_probability, :epsilon
+      attr_reader :teams, :beta, :beta_squared, :draw_probability, :epsilon, :layers
       
-      def initialize(teams, options = {})
-        @tau = options[:tau] || 0.1
-        @beta = options[:beta] || 20
+      # teams: 2 dimensional array of ratings
+      def initialize(teams, ranks, options = {})
+        @teams = teams
+        @ranks = ranks
+        @beta = options[:beta] || 25/6.0
         @draw_probability = options[:draw_probability] || 0.1
-        @tau_squared = tau**2
-        @beta_squared = beta**2
-        @epsilon = -Math.sqrt(2.0 * @beta_squared) * Gauss::Functions.inv_cdf((1.0 - @draw_probability) / 2.0)
+        @beta_squared = @beta**2
+        @epsilon = -Math.sqrt(2.0 * @beta_squared) * Gauss::Distribution.inv_cdf((1.0 - @draw_probability) / 2.0)
         
-        @prior_layer = Layers::PriorToSkills.new(self, teams)
+        @prior_layer = Layers::PriorToSkills.new(self, @teams)
         @layers = [
           @prior_layer,
-          Layers::SkillsToPerformances.new(self)
+          Layers::SkillsToPerformances.new(self),
+          Layers::PerformancesToTeamPerformances.new(self),
+          Layers::IteratedTeamPerformances.new(self,
+            Layers::TeamPerformanceDifferences.new(self),
+            Layers::TeamDifferenceComparision.new(self, ranks)
+          )
         ]
+      end
+      
+      def draw_margin
+        Gauss::Distribution.inv_cdf((@draw_probability + 1) / 2.0) * Math.sqrt(1 + 1) * @beta
       end
       
       def evaluate
         build_layers
         run_schedule
-        puts "#{@layers.last.output.flatten.map(&:to_s).join(", ")}<br>"
         [ranking_probability, updated_skills]
       end
       
@@ -49,7 +58,7 @@ module Saulabs
       def build_layers
         output = nil
         @layers.each do |layer|
-          layer.input = output if output
+          layer.input = output
           layer.build
           output = layer.output
         end

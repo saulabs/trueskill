@@ -12,9 +12,9 @@ module Saulabs
         def build
           @teams.each do |team|
             team_skills = []
-            team.each do |skill|
-              variable = Gauss::Distribution.new
-              @factors << Factors::Prior.new(skill.mean, skill.variance + @graph.tau_squared, variable)
+            team.each do |rating|
+              variable = TrueSkill::Rating.new(0.0, 0.0, rating.activity, rating.tau)
+              @factors << Factors::Prior.new(rating.mean, rating.variance + rating.tau_squared, variable)
               team_skills << variable
             end
             @output << team_skills

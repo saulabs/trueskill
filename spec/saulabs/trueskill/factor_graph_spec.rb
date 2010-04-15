@@ -4,7 +4,7 @@ describe Saulabs::TrueSkill::FactorGraph do
   
   before :each do
     @teams = create_teams
-    @graph = TrueSkill::FactorGraph.new(@teams, :tau => 0.5, :beta => 0.1, :draw_probability => 0.0)
+    @graph = TrueSkill::FactorGraph.new(@teams, [1,2,3])
   end
   
   describe "#evaluate" do
@@ -12,11 +12,9 @@ describe Saulabs::TrueSkill::FactorGraph do
     it "should do something" do
       result = @graph.evaluate
       puts "[#{result.last.flatten.map(&:to_s).join(', ')}]<br>"
-      puts "[#{result.first}]<br>"
-    end
-    
-    it "should do something" do
-      raise (Gauss::Distribution.with_deviation(25, 25/3.0) - Gauss::Distribution.with_deviation(25, 25/1.5)).inspect
+      # puts "[#{result.first}]<br>"
+      result.last[0][0].mean.should be_close(37.17611, tolerance)
+      result.last[0][0].deviation.should be_close(5.5262, tolerance)
     end
     
   end

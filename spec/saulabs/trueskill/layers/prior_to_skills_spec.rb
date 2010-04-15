@@ -4,7 +4,7 @@ describe TrueSkill::Layers::PriorToSkills do
   
   before :each do 
     @teams = create_teams
-    @graph = TrueSkill::FactorGraph.new(@teams)
+    @graph = TrueSkill::FactorGraph.new(@teams, [1,2,3])
     @layer = TrueSkill::Layers::PriorToSkills.new(@graph, @teams)
   end
   

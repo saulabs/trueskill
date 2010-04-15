@@ -27,7 +27,6 @@ module Saulabs
         
         def update_helper(message1, message2, variable1, variable2)
           a = @precision / (@precision + variable2.precision - message2.precision)
-          # puts "#{a}<br>"
           new_message = Gauss::Distribution.with_precision(
                           a * (variable2.precision_mean - message2.precision_mean),
                           a * (variable2.precision - message2.precision)

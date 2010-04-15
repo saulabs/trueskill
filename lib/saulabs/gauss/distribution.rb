@@ -1,38 +1,41 @@
 module Saulabs
   module Gauss
     class Distribution
+      
+      SQRT2 = Math.sqrt(2).freeze
+      INV_SQRT_2PI = (1 / Math.sqrt(2 * Math::PI)).freeze
+      LOG_SQRT_2PI = Math.log(Math.sqrt(2 * Math::PI)).freeze
     
       # gaussian normal distribution values
       attr_accessor :mean, :deviation, :variance, :precision, :precision_mean
-    
-      def initialize
-        @mean = 0.0
-        @deviation = 0.0
-        @variance = 0.0
-        @precision = 0.0
-        @precision_mean = 0.0
+      
+      def initialize(mean = 0.0, deviation = 0.0)
+        mean = 0.0 unless mean.to_f.finite?
+        deviation = 0.0 unless deviation.to_f.finite?
+        @mean = mean
+        @deviation = deviation
+        @variance = deviation * deviation
+        @precision = deviation == 0.0 ? 0.0 : 1 / @variance.to_f
+        @precision_mean = @precision * mean
       end
     
       class << self
+        
+        def standard
+          @@standard ||= Distribution.new(0.0, 1.0)
+          @@standard
+        end
       
         def with_deviation(mean, deviation)
-          dist = Distribution.new
-          if !mean.to_f.nan? and !deviation.to_f.nan? and deviation != 0.0
-            dist.mean = mean
-            dist.deviation = deviation
-            dist.variance = deviation * deviation
-            dist.precision = 1 / dist.variance.to_f
-            dist.precision_mean = dist.precision * mean
-          end
-          return dist
+          Distribution.new(mean, deviation)
         end
         
         def with_variance(mean, variance)
-          Distribution.with_deviation(mean, Math.sqrt(variance))
+          Distribution.new(mean, Math.sqrt(variance))
         end
   
         def with_precision(mean, precision)
-          Distribution.with_deviation(mean / precision, Math.sqrt(1 / precision))
+          Distribution.new(mean / precision, Math.sqrt(1 / precision))
         end
       
         def absolute_difference(x, y)
@@ -43,7 +46,7 @@ module Saulabs
           return 0.0 if x.precision == 0.0 || y.precision == 0.0
           variance_sum = x.variance + y.variance
           mean_diff = x.mean - y.mean
-          -Functions::LOG_SQRT_2PI - (Math.log(variance_sum) / 2.0) - (mean_diff**2 / 2.0 * variance_sum)
+          -LOG_SQRT_2PI - (Math.log(variance_sum) / 2.0) - (mean_diff**2 / (2.0 * variance_sum))
         end
       
         def log_ratio_normalization(x, y)
@@ -51,9 +54,32 @@ module Saulabs
           variance_diff = y.variance - x.variance
           return 0.0 if variance_diff == 0.0
           mean_diff = x.mean - y.mean
-          Math.log(y.variance) + Functions::LOG_SQRT_2PI - (Math.log(variance_diff) / 2.0) + (mean_diff**2 / 2.0 * variance_diff)
+          Math.log(y.variance) + LOG_SQRT_2PI - (Math.log(variance_diff) / 2.0) + (mean_diff**2 / (2.0 * variance_diff))
         end
+        
+        # Computes the cummulative Gaussian distribution at a specified point of interest
+        def cumulative_distribution_function(x)
+          0.5 * (1 + Math.erf(x / SQRT2))
+        end
+        alias_method :cdf, :cumulative_distribution_function
+        
+        # Computes the Gaussian density at a specified point of interest
+        def probability_density_function(x)
+          INV_SQRT_2PI * Math.exp(-0.5 * (x**2))
+        end
+        alias_method :pdf, :probability_density_function
+        
+        # The inverse of the cummulative Gaussian distribution function
+        def quantile_function(x)
+          -SQRT2 * Math.erfc(2.0 * x)
+        end
+        alias_method :inv_cdf, :quantile_function
+        
+      end
       
+      def value_at(x)
+        exp = -(x - @mean)**2.0 / (2.0 * @variance)
+        (1.0/@deviation) * INV_SQRT_2PI * Math.exp(exp)
       end
       
       # copy values from other distribution

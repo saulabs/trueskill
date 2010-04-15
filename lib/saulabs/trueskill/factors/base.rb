@@ -4,16 +4,19 @@ module Saulabs
       
       class Base
         
-        attr_accessor :messages, :bindings
-        
         def initialize
           @messages = []
           @bindings = {}
+          @variables = []
           @priors = []
         end
         
         def update_message_at(index)
           raise "Abstract method Factors::Base#update_message_at(index) called"
+        end
+        
+        def message_count
+          @messages.size
         end
         
         def log_normalization
@@ -25,10 +28,8 @@ module Saulabs
         end
         
         def send_message_at(idx)
-          self.send_message(@messages[idx], @bindings[@messages[idx]])
-        end
-        
-        def send_message(message, variable)
+          message = @messages[idx]
+          variable = @variables[idx]
           log_z = Gauss::Distribution.log_product_normalization(message, variable)
           variable.replace(message * variable)
           return log_z
@@ -38,6 +39,7 @@ module Saulabs
           message = Gauss::Distribution.new
           @messages << message
           @bindings[message] = variable
+          @variables << variable
           return message
         end
         

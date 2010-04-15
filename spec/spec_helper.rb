@@ -9,17 +9,21 @@ Spec::Runner.configure do |config|
   
 end
 
+def tolerance
+  0.001
+end
+
 def create_teams
   [
     [
-      Gauss::Distribution.with_deviation(25, 25/3.0)
+      TrueSkill::Rating.new(25, 8.1)
     ],
     [
-      Gauss::Distribution.with_deviation(25, 25/3.0),
-      Gauss::Distribution.with_deviation(25, 25/3.0)
+      TrueSkill::Rating.new(27, 3.1),
+      TrueSkill::Rating.new(10, 1.0)
     ],
     [
-      Gauss::Distribution.with_deviation(25, 25/3.0)
+      TrueSkill::Rating.new(32, 0.2)
     ]
   ]
 end

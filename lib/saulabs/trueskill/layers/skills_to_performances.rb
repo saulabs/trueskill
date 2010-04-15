@@ -7,9 +7,9 @@ module Saulabs
         def build
           @input.each do |team|
             team_performances = []
-            team.each do |skill|
-              variable = Gauss::Distribution.new
-              @factors << Factors::Likelihood.new(@graph.beta_squared, skill, variable)
+            team.each do |rating|
+              variable = TrueSkill::Rating.new(0.0, 0.0, rating.activity, rating.tau)
+              @factors << Factors::Likelihood.new(@graph.beta_squared, rating, variable)
               team_performances << variable
             end
             @output << team_performances
