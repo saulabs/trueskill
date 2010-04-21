@@ -19,7 +19,8 @@ module Saulabs
         def update_message_at(index)
           raise "illegal message index: #{index}" if index < 0 || index > 0
           message = @messages[index]
-          variable = @variables[index]
+          variable = @bindings[@messages[index]]
+          
           msg = variable / message
           c = msg.precision
           d = msg.precision_mean

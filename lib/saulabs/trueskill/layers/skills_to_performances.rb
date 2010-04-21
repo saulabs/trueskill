@@ -9,7 +9,7 @@ module Saulabs
             team_performances = []
             team.each do |rating|
               variable = TrueSkill::Rating.new(0.0, 0.0, rating.activity, rating.tau)
-              @factors << Factors::Likelihood.new(@graph.beta_squared, rating, variable)
+              @factors << Factors::Likelihood.new(@graph.beta_squared, variable, rating)
               team_performances << variable
             end
             @output << team_performances

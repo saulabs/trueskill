@@ -131,6 +131,7 @@ describe Gauss::Distribution, "functions" do
     
     it "#cumulative_distribution_function should return 0.6064198" do
       Gauss::Distribution.cumulative_distribution_function(0.27).should be_close(0.6064198, 0.00001)
+      Gauss::Distribution.cdf(2.0).should be_close(0.9772498, 0.00001)
     end
     
     it "#probability_density_function should return 0.384662" do
@@ -139,6 +140,7 @@ describe Gauss::Distribution, "functions" do
     
     it "#quantile_function should return -0.62941" do
       Gauss::Distribution.quantile_function(0.27).should be_close(-0.62941, 0.00001)
+      Gauss::Distribution.quantile_function(0.9).should be_close(1.281551, tolerance)
     end
     
   end

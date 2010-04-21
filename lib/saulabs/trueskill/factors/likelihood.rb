@@ -14,13 +14,13 @@ module Saulabs
         def update_message_at(index)
           raise "illegal message index: #{index}" if index < 0 || index > 1
           case index
-          when 0 then update_helper(@messages[0], @messages[1], @bindings[@messages[0]], @bindings[@messages[1]])
-          when 1 then update_helper(@messages[1], @messages[0], @bindings[@messages[1]], @bindings[@messages[0]])
+          when 0 then update_helper(@messages[0], @messages[1], @variables[0], @variables[1])
+          when 1 then update_helper(@messages[1], @messages[0], @variables[1], @variables[0])
           end
         end
         
         def log_normalization
-          Gauss::Distribution.log_ratio_normalization(@bindings[@messages[0]], @messages[0])
+          Gauss::Distribution.log_ratio_normalization(@variables[0], @messages[0])
         end
       
       private

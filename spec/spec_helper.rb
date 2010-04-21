@@ -16,7 +16,7 @@ end
 def create_teams
   [
     [
-      TrueSkill::Rating.new(25, 8.1)
+      TrueSkill::Rating.new(25, 4.1)
     ],
     [
       TrueSkill::Rating.new(27, 3.1),

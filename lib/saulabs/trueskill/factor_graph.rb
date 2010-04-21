@@ -27,7 +27,7 @@ module Saulabs
       end
       
       def draw_margin
-        Gauss::Distribution.inv_cdf((@draw_probability + 1) / 2.0) * Math.sqrt(1 + 1) * @beta
+        Gauss::Distribution.inv_cdf(0.5*(@draw_probability + 1)) * Math.sqrt(1 + 1) * @beta
       end
       
       def evaluate
