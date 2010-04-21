@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lars Kuhnt"]
-  s.date = %q{2010-04-09}
-  s.description = %q{A library for the trueskill rating system}
+  s.date = %q{2010-04-21}
+  s.description = %q{A ruby library for the trueskill rating system}
   s.email = %q{lars.kuhnt@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -24,24 +24,60 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "lib/models/calculation.rb",
-     "lib/models/rating.rb",
-     "lib/trueskill.rb",
-     "spec/models/rating_spec.rb",
+     "lib/saulabs/gauss.rb",
+     "lib/saulabs/gauss/distribution.rb",
+     "lib/saulabs/gauss/truncated_correction.rb",
+     "lib/saulabs/trueskill.rb",
+     "lib/saulabs/trueskill/factor_graph.rb",
+     "lib/saulabs/trueskill/factors/base.rb",
+     "lib/saulabs/trueskill/factors/greater_than.rb",
+     "lib/saulabs/trueskill/factors/likelihood.rb",
+     "lib/saulabs/trueskill/factors/prior.rb",
+     "lib/saulabs/trueskill/factors/weighted_sum.rb",
+     "lib/saulabs/trueskill/factors/within.rb",
+     "lib/saulabs/trueskill/layers/base.rb",
+     "lib/saulabs/trueskill/layers/iterated_team_performances.rb",
+     "lib/saulabs/trueskill/layers/performances_to_team_performances.rb",
+     "lib/saulabs/trueskill/layers/prior_to_skills.rb",
+     "lib/saulabs/trueskill/layers/skills_to_performances.rb",
+     "lib/saulabs/trueskill/layers/team_difference_comparision.rb",
+     "lib/saulabs/trueskill/layers/team_performance_differences.rb",
+     "lib/saulabs/trueskill/rating.rb",
+     "lib/saulabs/trueskill/schedules/base.rb",
+     "lib/saulabs/trueskill/schedules/loop.rb",
+     "lib/saulabs/trueskill/schedules/sequence.rb",
+     "lib/saulabs/trueskill/schedules/step.rb",
+     "spec/saulabs/gauss/distribution_spec.rb",
+     "spec/saulabs/gauss/truncated_correction_spec.rb",
+     "spec/saulabs/trueskill/factor_graph_spec.rb",
+     "spec/saulabs/trueskill/factors/greater_than_spec.rb",
+     "spec/saulabs/trueskill/factors/likelihood_spec.rb",
+     "spec/saulabs/trueskill/factors/prior_spec.rb",
+     "spec/saulabs/trueskill/factors/weighted_sum_spec.rb",
+     "spec/saulabs/trueskill/factors/within_spec.rb",
+     "spec/saulabs/trueskill/layers/prior_to_skills_spec.rb",
+     "spec/saulabs/trueskill/schedules_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/trueskill_spec.rb",
      "trueskill.gemspec"
   ]
-  s.homepage = %q{http://github.com/larskuhnt/trueskill}
+  s.homepage = %q{http://github.com/saulabs/trueskill}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{A library for the trueskill rating system}
+  s.summary = %q{A ruby library for the trueskill rating system}
   s.test_files = [
-    "spec/models/rating_spec.rb",
-     "spec/spec_helper.rb",
-     "spec/trueskill_spec.rb"
+    "spec/saulabs/gauss/distribution_spec.rb",
+     "spec/saulabs/gauss/truncated_correction_spec.rb",
+     "spec/saulabs/trueskill/factor_graph_spec.rb",
+     "spec/saulabs/trueskill/factors/greater_than_spec.rb",
+     "spec/saulabs/trueskill/factors/likelihood_spec.rb",
+     "spec/saulabs/trueskill/factors/prior_spec.rb",
+     "spec/saulabs/trueskill/factors/weighted_sum_spec.rb",
+     "spec/saulabs/trueskill/factors/within_spec.rb",
+     "spec/saulabs/trueskill/layers/prior_to_skills_spec.rb",
+     "spec/saulabs/trueskill/schedules_spec.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then

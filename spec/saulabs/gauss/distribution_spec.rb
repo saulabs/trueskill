@@ -140,7 +140,6 @@ describe Gauss::Distribution, "functions" do
     
     it "#quantile_function should return -0.62941" do
       Gauss::Distribution.quantile_function(0.27).should be_close(-0.62941, 0.00001)
-      Gauss::Distribution.quantile_function(0.9).should be_close(1.281551, tolerance)
     end
     
   end

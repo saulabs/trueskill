@@ -5,10 +5,10 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "trueskill"
-    gem.summary = %Q{A library for the trueskill rating system}
-    gem.description = %Q{A library for the trueskill rating system}
+    gem.summary = %Q{A ruby library for the trueskill rating system}
+    gem.description = %Q{A ruby library for the trueskill rating system}
     gem.email = "lars.kuhnt@gmail.com"
-    gem.homepage = "http://github.com/larskuhnt/trueskill"
+    gem.homepage = "http://github.com/saulabs/trueskill"
     gem.authors = ["Lars Kuhnt"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_dependency('narray', '>= 0.5.9.7')

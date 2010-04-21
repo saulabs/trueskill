@@ -56,11 +56,6 @@ describe TrueSkill::Factors::Prior do
     it "should return a difference of 4.50116 for message 0" do
       @factor.update_message_at(0).should be_close(4.50116, tolerance)
     end
-    
-    it "should return a difference of 4.50116 for message 1" do
-      @factor.update_message_at(0)
-      @factor.update_message_at(1).should be_close(4.0, tolerance)
-    end
   
   end
   
