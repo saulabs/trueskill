@@ -30,10 +30,15 @@ module Saulabs
         Gauss::Distribution.inv_cdf(0.5*(@draw_probability + 1)) * Math.sqrt(1 + 1) * @beta
       end
       
-      def evaluate
+      def update_skills
         build_layers
         run_schedule
-        [ranking_probability, updated_skills]
+        @teams.each_with_index do |team, i|
+          team.each_with_index do |player, j|
+            player.replace(@prior_layer.output[i][j])
+          end
+        end
+        ranking_probability
       end
       
     private
@@ -49,6 +54,7 @@ module Saulabs
         #   end
         # end
         # Math.exp(sum_log_z + sum_log_s)
+        0.0
       end
       
       def updated_skills
