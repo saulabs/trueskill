@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Factors
       
+      # @private
       class Likelihood < Base
         
         def initialize(beta_squared, variable1, variable2)

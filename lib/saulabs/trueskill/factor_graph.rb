@@ -3,9 +3,60 @@ module Saulabs
     
     class FactorGraph
       
-      attr_reader :teams, :beta, :beta_squared, :draw_probability, :epsilon, :layers
+      # @return [Array<Array<TrueSkill::Rating>>]
+      attr_reader :teams
       
-      # @param teams (Array) 2 dimensional array of ratings
+      # @return [Float]
+      attr_reader :beta
+      
+      # @return [Float]
+      attr_reader :beta_squared
+      
+      # @return [Float]
+      attr_reader:draw_probability
+      
+      # @return [Float]
+      attr_reader:epsilon
+      
+      # @private
+      attr_reader:layers
+      
+      
+      # Creates a new trueskill factor graph for calculating the new skills based on the given game parameters
+      #
+      # @param [Array<Array<TrueSkill::Rating>>] teams 
+      #   player-ratings grouped in Arrays by teams
+      # @param [Array<Integer>] ranks 
+      #   team rankings, example: [2,1,3] first team  in teams finished 2nd, second team 1st and third team 3rd
+      # @param [Hash] options 
+      #   the options hash to configure the factor graph constants beta and draw_probability
+      #
+      # @option options [Float] :beta (4.166667)
+      #   the length of the skill-chain. Use a low value for games with a small amount of chance (Go, Chess, etc.) and
+      #   a high value for games with a high amount of chance (Uno, Bridge, etc.)
+      # @option options [Float] :draw_probability (0.1)
+      #   how probable is a draw in the game outcome [0.0,1.0]
+      # 
+      # @example Calculating new skills of a two team game, where one team has one player and the other two
+      #
+      #  require 'rubygems'
+      #  require 'saulabs/trueskill'
+      # 
+      #  include Saulabs::TrueSkill
+      # 
+      #  # team 1 has just one player with a mean skill of 27.1, a skill-deviation of 2.13
+      #  # and an play activity of 100 %
+      #  team1 = [Rating.new(27.1, 2.13, 1.0)]
+      # 
+      #  # team 2 has two players
+      #  team2 = [Rating.new(22.0, 0.98, 0.8), Rating.new(31.1, 5.33, 0.9)]
+      # 
+      #  # team 1 finished first and team 2 second
+      #  graph = FactorGraph.new([team1, team2], [1,2])
+      # 
+      #  # update the Ratings
+      #  graph.update_skills
+      #
       def initialize(teams, ranks, options = {})
         @teams = teams
         @ranks = ranks
@@ -30,6 +81,9 @@ module Saulabs
         Gauss::Distribution.inv_cdf(0.5*(@draw_probability + 1)) * Math.sqrt(1 + 1) * @beta
       end
       
+      # Updates the skills of the players inplace
+      # 
+      # @return [Float] the probability of the games outcome
       def update_skills
         build_layers
         run_schedule

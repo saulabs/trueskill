@@ -1,9 +1,9 @@
-require 'pp'
-
 module Saulabs
   module TrueSkill
+    # @private
     module Factors
       
+      # @private
       class WeightedSum < Base
         
         attr_reader :weights, :weights_squared, :index_order

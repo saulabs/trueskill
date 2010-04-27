@@ -1,7 +1,10 @@
 module Saulabs
   module TrueSkill
+    
+    # @private
     module Factors
       
+      # @private
       class Base
         
         def initialize

@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Layers
-    
+      
+      # @private
       class IteratedTeamPerformances < Base
         
         def initialize(graph, team_perf_diff, team_diff_comp)

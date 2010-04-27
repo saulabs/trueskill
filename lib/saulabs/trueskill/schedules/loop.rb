@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Schedules
       
+      # @private
       class Loop < Base
         
         def initialize(schedule, max_delta)

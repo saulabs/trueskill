@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Schedules
       
+      # @private
       class Step < Base
         
         def initialize(factor, index)

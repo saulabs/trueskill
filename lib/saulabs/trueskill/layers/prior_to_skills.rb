@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Layers
-    
+      
+      # @private
       class PriorToSkills < Base
       
         def initialize(graph, teams)

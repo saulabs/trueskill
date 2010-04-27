@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Layers
       
+      # @private
       class Base
       
         attr_accessor :graph, :factors, :output, :input

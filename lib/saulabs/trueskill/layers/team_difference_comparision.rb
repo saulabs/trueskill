@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Layers
-    
+      
+      # @private
       class TeamDifferenceComparision < Base
         
         def initialize(graph, ranks)

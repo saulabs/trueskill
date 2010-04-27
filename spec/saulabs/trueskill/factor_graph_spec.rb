@@ -4,23 +4,27 @@ describe Saulabs::TrueSkill::FactorGraph do
   
   before :each do
     @teams = create_teams
+    @skill = @teams.first.first
     @graph = TrueSkill::FactorGraph.new(@teams, [1,2,3])
   end
   
-  describe "#evaluate" do
+  describe "#update_skills" do
     
-    it "should do something" do
-      result = @graph.evaluate
-      puts "[#{result.last.flatten.map(&:to_s).join(', ')}]<br>"
-      result.last[0][0].mean.should be_close(29.61452, tolerance)
-      result.last[0][0].deviation.should be_close(3.5036, tolerance)
+    it "should update the mean of the first player in team1 to 29.61452" do
+      @graph.update_skills
+      @skill.mean.should be_close(29.61452, tolerance)
+    end
+    
+    it "should update the deviation of the first player in team1 to 3.5036" do
+      @graph.update_skills
+      @skill.deviation.should be_close(3.5036, tolerance)
     end
     
   end
   
   describe "#draw_margin" do
     
-    it "should be " do
+    it "should be -0.998291" do
       @graph.draw_margin.should be_close(-0.998291, tolerance)
     end
     

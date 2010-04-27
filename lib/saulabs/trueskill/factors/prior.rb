@@ -1,7 +1,9 @@
 module Saulabs
   module TrueSkill
+    # @private
     module Factors
       
+      # @private
       class Prior < Base
         
         def initialize(mean, variance, variable)
