@@ -1,46 +1,24 @@
 require 'rubygems'
 require 'rake'
+require 'bundler'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "trueskill"
-    gem.summary = %Q{A ruby library for the trueskill rating system}
-    gem.description = %Q{A ruby library for the trueskill rating system}
-    gem.email = "lars.kuhnt@gmail.com"
-    gem.homepage = "http://github.com/saulabs/trueskill"
-    gem.authors = ["Lars Kuhnt"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_dependency('narray', '>= 0.5.9.7')
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
+Bundler.setup
+Bundler.require
 
 require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
+desc 'Default: run specs.'
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+desc 'Run the specs'
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.rcov_opts  << '--exclude "gems/*,spec/*"'
+  t.rcov       = true
+  t.rcov_dir   = 'doc/coverage'
+  t.spec_files = FileList['spec/**/*_spec.rb']
+end
 
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "trueskill #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+YARD::Rake::YardocTask.new(:doc) do |t|
+  t.files   = ['lib/**/*.rb', 'HISTORY.md']
+  t.options = ['--no-private', '--title', 'trueskill Documentation', '--readme', 'README.md']
 end

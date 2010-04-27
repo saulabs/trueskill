@@ -5,7 +5,7 @@ module Saulabs
       
       attr_reader :teams, :beta, :beta_squared, :draw_probability, :epsilon, :layers
       
-      # teams: 2 dimensional array of ratings
+      # @param teams (Array) 2 dimensional array of ratings
       def initialize(teams, ranks, options = {})
         @teams = teams
         @ranks = ranks
