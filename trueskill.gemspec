@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version                   = "0.9.1"
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to?(:required_rubygems_version=)
   s.authors                   = ["Lars Kuhnt"]
-  s.date                      = "2010-04-21"
+  s.date                      = "2010-07-20"
   s.description               = "A ruby library for the trueskill rating system"
   s.email                     = "lars@sauspiel.de"
   s.files                     = pkg_files
