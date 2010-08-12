@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Saulabs
   module TrueSkill
     # @private

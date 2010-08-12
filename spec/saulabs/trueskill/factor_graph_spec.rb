@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Saulabs::TrueSkill::FactorGraph do
@@ -28,6 +29,30 @@ describe Saulabs::TrueSkill::FactorGraph do
       @graph.draw_margin.should be_close(-0.998291, tolerance)
     end
     
+  end
+  
+end
+
+describe Saulabs::TrueSkill::FactorGraph do
+  
+  before :each do
+    @teams = [
+      [
+        TrueSkill::Rating.new(8.3, 3.1, 0.8, 0.02),
+        TrueSkill::Rating.new(3.0, 3.1, 0.8, 0.02),
+        TrueSkill::Rating.new(2.2, 3.2, 0.8, 0.02)
+      ],
+      [
+        TrueSkill::Rating.new(25.0, 8.3333, 0.8, 0.02)
+      ]
+    ]
+    @skill = @teams.last.first
+    @graph = TrueSkill::FactorGraph.new(@teams, [1,2], :beta => 25.0, :draw_probability => 0.0)
+  end
+  
+  it "should do something" do
+    40.times { TrueSkill::FactorGraph.new(@teams, [1,2], :beta => 15.0, :draw_probability => 0.0).update_skills }
+    puts "#{@skill.to_s}"
   end
   
 end
