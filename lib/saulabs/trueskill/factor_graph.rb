@@ -46,7 +46,7 @@ module Saulabs
       #  include Saulabs::TrueSkill
       # 
       #  # team 1 has just one player with a mean skill of 27.1, a skill-deviation of 2.13
-      #  # and an play activity of 100 %
+      #  # and a play activity of 100 %
       #  team1 = [Rating.new(27.1, 2.13, 1.0)]
       # 
       #  # team 2 has two players

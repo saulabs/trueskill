@@ -74,9 +74,28 @@ module Saulabs
         
         # The inverse of the cummulative Gaussian distribution function
         def quantile_function(x)
-          -@@sqrt2 * Math.erfc(2.0 * x)
+          -@@sqrt2 * inv_erf(2.0 * x)
         end
         alias_method :inv_cdf, :quantile_function
+        
+        def inv_erf(p)
+          return -100 if p >= 2.0
+          return 100 if p <= 0.0
+
+          pp = p < 1.0 ? p : 2 - p
+          t = Math.sqrt(-2*Math.log(pp/2.0)) # Initial guess
+          x = -0.70711*((2.30753 + t*0.27061)/(1.0 + t*(0.99229 + t*0.04481)) - t)
+
+          [0,1].each do |j|
+            err = erf(x) - pp
+            x += err/(1.12837916709551257*Math.exp(-(x*x)) - x*err) # Halley
+          end
+          p < 1.0 ? x : -x
+        end
+        
+        def erf(x)
+          Math.erfc(x)
+        end
         
       end
       

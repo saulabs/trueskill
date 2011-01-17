@@ -130,7 +130,7 @@ describe Gauss::Distribution, "functions" do
   
   describe 'value = 0.27' do
     
-    it "#cumulative_distribution_function should return 0.6064198" do
+    it "#cumulative_distribution_function should return 0.6064198 for 0.27" do
       Gauss::Distribution.cumulative_distribution_function(0.27).should be_close(0.6064198, 0.00001)
       Gauss::Distribution.cdf(2.0).should be_close(0.9772498, 0.00001)
     end
@@ -139,8 +139,36 @@ describe Gauss::Distribution, "functions" do
       Gauss::Distribution.probability_density_function(0.27).should be_close(0.384662, 0.0001)
     end
     
-    it "#quantile_function should return -0.62941" do
-      Gauss::Distribution.quantile_function(0.27).should be_close(-0.62941, 0.00001)
+    it "#quantile_function should return ~ -0.6128123 at 0.27" do
+      Gauss::Distribution.quantile_function(0.27).should be_close(-0.6128123, 0.00001)
+    end
+    
+    it "#quantile_function should return ~ 1.281551 at 0.9" do
+      Gauss::Distribution.quantile_function(0.9).should be_close(1.281551, 0.00001)
+    end
+    
+    it "#erf_inv should return 0.0888559 at 0.9" do
+      Gauss::Distribution.inv_erf(0.9).should be_close(0.0888559, 0.00001)
+    end
+    
+    it "#erf_inv should return 0.779983 at 0.27" do
+      Gauss::Distribution.inv_erf(0.27).should be_close(0.779983, 0.00001)
+    end
+    
+    it "#erf_inv should return 100 at -0.5" do
+      Gauss::Distribution.inv_erf(-0.5).should be_close(100, 0.00001)
+    end
+    
+    it "#erf should return 0.203091 at 0.9" do
+      Gauss::Distribution.erf(0.9).should be_close(0.203091, 0.00001)
+    end
+    
+    it "#erf should return 0.702581 at 0.27" do
+      Gauss::Distribution.erf(0.27).should be_close(0.702581, 0.00001)
+    end
+    
+    it "#erf should return 1.520499 at -0.5" do
+      Gauss::Distribution.erf(-0.5).should be_close(1.520499, 0.00001)
     end
     
   end

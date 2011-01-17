@@ -2,12 +2,13 @@
 require 'rubygems'
 require 'spec'
 require 'spec/autorun'
-require "#{File.dirname(__FILE__)}/../lib/saulabs/trueskill.rb"
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "lib", "saulabs", "trueskill.rb"))
+require File.expand_path(File.join(File.dirname(__FILE__), "true_skill_matchers.rb"))
 
 include Saulabs
 
 Spec::Runner.configure do |config|
-  
+  config.include(TrueSkillMatchers)
 end
 
 def tolerance

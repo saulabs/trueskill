@@ -24,6 +24,7 @@ describe Gauss::TruncatedCorrection do
   describe "#w_exceeds_margin" do
   
     it "should return 0.657847 for (0.2, 0.3)" do
+      Gauss::TruncatedCorrection.w_exceeds_margin(0.0, 0.740466).should be_close(0.76774506, tolerance)
       Gauss::TruncatedCorrection.w_exceeds_margin(0.2, 0.3).should be_close(0.657847, tolerance)
       Gauss::TruncatedCorrection.w_exceeds_margin(0.1, 0.03).should be_close(0.621078, tolerance)
     end
@@ -33,6 +34,7 @@ describe Gauss::TruncatedCorrection do
   describe "#v_exceeds_margin" do
   
     it "should return 0.8626174 for (0.2, 0.3)" do
+      Gauss::TruncatedCorrection.v_exceeds_margin(0.0, 0.740466).should be_close(1.32145197, tolerance)
       Gauss::TruncatedCorrection.v_exceeds_margin(0.2, 0.3).should be_close(0.8626174, tolerance)
       Gauss::TruncatedCorrection.v_exceeds_margin(0.1, 0.03).should be_close(0.753861, tolerance)
     end
