@@ -6,7 +6,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "true_skill_matchers.
 
 include Saulabs
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include(TrueSkillMatchers)
 end
 
