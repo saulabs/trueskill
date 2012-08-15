@@ -11,7 +11,7 @@ describe TrueSkill::Factors::Prior do
   describe "#update_message_at" do
     
     it "should return a difference of 73.33333" do
-      @factor.update_message_at(0).should be_close(73.33333, tolerance)
+      @factor.update_message_at(0).should be_within(tolerance).of(73.33333)
     end
   
   end

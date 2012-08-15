@@ -11,7 +11,7 @@ describe TrueSkill::Factors::GreaterThan do
   describe "#update_message_at" do
     
     it "should return a difference of 2.1409" do
-      @factor.update_message_at(0).should be_close(2.1409, tolerance)
+      @factor.update_message_at(0).should be_within(tolerance).of(2.1409)
     end
   
   end
@@ -19,7 +19,7 @@ describe TrueSkill::Factors::GreaterThan do
   describe "#log_normalization" do
     
     it "should be -0.69314" do
-      @factor.log_normalization.should be_close(-0.69314, tolerance)
+      @factor.log_normalization.should be_within(tolerance).of(-0.69314)
     end
   
   end

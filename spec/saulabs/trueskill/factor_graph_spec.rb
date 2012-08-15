@@ -13,12 +13,12 @@ describe Saulabs::TrueSkill::FactorGraph do
     
     it "should update the mean of the first player in team1 to 30.38345" do
       @graph.update_skills
-      @skill.mean.should be_close(30.38345, tolerance)
+      @skill.mean.should be_within(tolerance).of(30.38345)
     end
     
     it "should update the deviation of the first player in team1 to 3.46421" do
       @graph.update_skills
-      @skill.deviation.should be_close(3.46421, tolerance)
+      @skill.deviation.should be_within(tolerance).of(3.46421)
     end
     
   end
@@ -26,7 +26,7 @@ describe Saulabs::TrueSkill::FactorGraph do
   describe "#draw_margin" do
     
     it "should be -0.998291 for diff 0.740466" do
-      @graph.draw_margin.should be_close(0.740466, tolerance)
+      @graph.draw_margin.should be_within(tolerance).of(0.740466)
     end
     
   end
