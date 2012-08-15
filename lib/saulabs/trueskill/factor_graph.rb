@@ -65,6 +65,7 @@ module Saulabs
         @draw_probability = options[:draw_probability] || 0.1
         @beta_squared = @beta**2
         @epsilon = -Math.sqrt(2.0 * @beta_squared) * Gauss::Distribution.inv_cdf((1.0 - @draw_probability) / 2.0)
+        @max_delta = options[:max_delta] || 0.0001
         
         @prior_layer = Layers::PriorToSkills.new(self, @teams)
         @layers = [
@@ -73,7 +74,8 @@ module Saulabs
           Layers::PerformancesToTeamPerformances.new(self),
           Layers::IteratedTeamPerformances.new(self,
             Layers::TeamPerformanceDifferences.new(self),
-            Layers::TeamDifferenceComparision.new(self, ranks)
+            Layers::TeamDifferenceComparision.new(self, ranks),
+            @max_delta
           )
         ]
       end

@@ -7,10 +7,11 @@ module Saulabs
       # @private
       class IteratedTeamPerformances < Base
         
-        def initialize(graph, team_perf_diff, team_diff_comp)
+        def initialize(graph, team_perf_diff, team_diff_comp,max_delta=0.0001)
           super(graph)
           @tpd = team_perf_diff
           @tdc = team_diff_comp
+          @max_delta = max_delta
         end
         
         def build
@@ -65,7 +66,7 @@ module Saulabs
                                     Schedules::Step.new(@tpd.factors[team_diff-1-i], 1)
                                   ])
                                 })
-          Schedules::Loop.new(Schedules::Sequence.new([forward_schedule, backward_schedule]), 0.0001)
+          Schedules::Loop.new(Schedules::Sequence.new([forward_schedule, backward_schedule]), @max_delta)
         end
         
       end
