@@ -7,10 +7,17 @@ module Saulabs
       # @private
       class PerformancesToTeamPerformances < Base
         
+        def initialize(graph, skill_additive = true)
+          @skill_additive = true
+          super graph
+        end
+
         def build
           @input.each do |ratings|
             variable = Gauss::Distribution.new
-            @factors << Factors::WeightedSum.new(variable, ratings, ratings.map(&:activity))
+            activities = ratings.map(&:activity)
+            activities.map!{|a| a / ratings.size.to_f} unless @skill_additive
+            @factors << Factors::WeightedSum.new(variable, ratings,  activities)
             @output << [variable]
           end
         end

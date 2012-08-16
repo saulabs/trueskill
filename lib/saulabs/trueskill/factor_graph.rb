@@ -14,13 +14,16 @@ module Saulabs
       attr_reader :beta_squared
       
       # @return [Float]
-      attr_reader:draw_probability
+      attr_reader :draw_probability
       
       # @return [Float]
-      attr_reader:epsilon
+      attr_reader :epsilon
       
       # @private
-      attr_reader:layers
+      attr_reader :layers
+
+      # @return [Boolean]
+      attr_reader :skills_additive
       
       
       # Creates a new trueskill factor graph for calculating the new skills based on the given game parameters
@@ -30,13 +33,17 @@ module Saulabs
       # @param [Array<Integer>] ranks 
       #   team rankings, example: [2,1,3] first team  in teams finished 2nd, second team 1st and third team 3rd
       # @param [Hash] options 
-      #   the options hash to configure the factor graph constants beta and draw_probability
+      #   the options hash to configure the factor graph constants beta, draw_probability and skills_additive
       #
       # @option options [Float] :beta (4.166667)
       #   the length of the skill-chain. Use a low value for games with a small amount of chance (Go, Chess, etc.) and
       #   a high value for games with a high amount of chance (Uno, Bridge, etc.)
       # @option options [Float] :draw_probability (0.1)
       #   how probable is a draw in the game outcome [0.0,1.0]
+      # @option options [Boolean] :skills_additive (true)
+      #   true is valid for games like Halo etc, where skill is additive (2 players are better than 1),
+      #   false for card games like Skat, Doppelkopf, Bridge where skills are not additive,
+      #         two players dont make the team stronger, skills averaged)
       # 
       # @example Calculating new skills of a two team game, where one team has one player and the other two
       #
@@ -61,16 +68,23 @@ module Saulabs
       def initialize(teams, ranks, options = {})
         @teams = teams
         @ranks = ranks
-        @beta = options[:beta] || 25/6.0
-        @draw_probability = options[:draw_probability] || 0.1
+        opts = {
+            :beta => 25/6.0,
+            :draw_probability => 0.1,
+            :skills_additive => true
+          }.merge(options)
+
+        @beta = opts[:beta]
+        @draw_probability = opts[:draw_probability]
         @beta_squared = @beta**2
         @epsilon = -Math.sqrt(2.0 * @beta_squared) * Gauss::Distribution.inv_cdf((1.0 - @draw_probability) / 2.0)
+        @skills_additive = opts[:skills_additive]
         
         @prior_layer = Layers::PriorToSkills.new(self, @teams)
         @layers = [
           @prior_layer,
           Layers::SkillsToPerformances.new(self),
-          Layers::PerformancesToTeamPerformances.new(self),
+          Layers::PerformancesToTeamPerformances.new(self, @skills_additive),
           Layers::IteratedTeamPerformances.new(self,
             Layers::TeamPerformanceDifferences.new(self),
             Layers::TeamDifferenceComparision.new(self, ranks)
