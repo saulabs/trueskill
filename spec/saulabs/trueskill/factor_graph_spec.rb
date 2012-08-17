@@ -93,18 +93,46 @@ describe Saulabs::TrueSkill::FactorGraph, "two players" do
   
 end
 
-describe Saulabs::TrueSkill::FactorGraph, "two on two" do
+describe Saulabs::TrueSkill::FactorGraph, "1 vs 2, skills are additive, standard rating" do
+
+
   
-  before :each do
-    @teams = [
-      [TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0),TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0)],
-      [TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0),TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0)]
-    ]
-  end
-  
-  describe 'win with standard rating' do
+    before :each do
+      @teams = [
+        [
+           TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0),
+
+         ],
+        [
+          TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0),
+          TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0)
+
+
+        ]
+      ]
+    end
+
+    describe "#@skill_update" do
+      
+      
+      it "should have a Boolean @skills_additive = false" do
+        @graph = TrueSkill::FactorGraph.new(@teams, [1,1], {:skills_additive => false})
+        @graph.skills_additive.should be_false
+      end
+
+
+
+      it "should update the mean of the first player in team1 to 25.0 after draw" do
+        @graph = TrueSkill::FactorGraph.new(@teams, [1,1], {:skills_additive => false})
+
+        @graph.update_skills
+        @teams[0][0].mean.should be_within(tolerance).of(25.0)
+
+      end
     
-    
+
+
+
+
   end
-  
 end
