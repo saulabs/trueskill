@@ -60,7 +60,7 @@ module Saulabs
       #  team2 = [Rating.new(22.0, 0.98, 0.8), Rating.new(31.1, 5.33, 0.9)]
       #
       #  # team 1 finished first and team 2 second
-      #  graph = FactorGraph.new([team1, team2], [1,2])
+      #  graph = FactorGraph.new( team1 => 1, team2 => 2 )
       #
       #  # update the Ratings
       #  graph.update_skills
