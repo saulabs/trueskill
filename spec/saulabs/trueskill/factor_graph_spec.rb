@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path('spec/spec_helper.rb')
 
-describe Saulabs::TrueSkill::FactorGraph do
+describe Saulabs::TrueSkill::FactorGraph, "Unit Tests" do
 
   before :each do
     @teams = create_teams
@@ -11,7 +11,6 @@ describe Saulabs::TrueSkill::FactorGraph do
   end
 
   describe "#update_skills" do
-
     it "should update the mean of the first player in team1 to 30.38345" do
       @graph.update_skills
       @skill.mean.should be_within(tolerance).of(30.38345)
@@ -21,24 +20,22 @@ describe Saulabs::TrueSkill::FactorGraph do
       @graph.update_skills
       @skill.deviation.should be_within(tolerance).of(3.46421)
     end
-
   end
 
   describe "#draw_margin" do
-
     it "should be -0.998291 for diff 0.740466" do
       @graph.draw_margin.should be_within(tolerance).of(0.740466)
     end
-
   end
+end
 
-
+describe Saulabs::TrueSkill::FactorGraph, "Integration Tests" do
   context "When there are two teams" do
-    let :team1 do
+    let :team1 do # Each team needs unique instances as we modify by side effect
       [TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0)]
     end
 
-    let :team2 do
+    let :team2 do # Each team needs unique instances as we modify by side effect
       [TrueSkill::Rating.new(25.0, 25.0/3.0, 1.0, 25.0/300.0)]
     end
 
@@ -106,7 +103,6 @@ describe Saulabs::TrueSkill::FactorGraph do
       end
 
     end
-
 
     context "when it is a 1 vs 2" do
       let :team2 do
