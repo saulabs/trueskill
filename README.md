@@ -7,22 +7,22 @@ Usage
 -----
 
 Example:
-    
+
     require 'rubygems'
     require 'saulabs/trueskill'
-    
+
     include Saulabs::TrueSkill
-    
+
     # team 1 has just one player with a mean skill of 27.1, a skill-deviation of 2.13
     # and an play activity of 100 %
     team1 = [Rating.new(27.1, 2.13, 1.0)]
-    
+
     # team 2 has two players
     team2 = [Rating.new(22.0, 0.98, 0.8), Rating.new(31.1, 5.33, 0.9)]
-    
+
     # team 1 finished first and team 2 second
-    graph = FactorGraph.new([team1, team2], [1,2])
-    
+    graph = FactorGraph.new(team1 => 1, team2 => 2)
+
     # update the Ratings
     graph.update_skills
 
@@ -34,7 +34,7 @@ To install the TrueSkill gem, simply run
     [sudo] gem install trueskill
 
 Add the following to your script:
-   
+
     require 'saulabs/trueskill'
 
 Known issues
@@ -45,11 +45,11 @@ Known issues
 Plans
 -----
 
-* 
+*
 
 Note on Patches/Pull Requests
 -----------------------------
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -61,6 +61,6 @@ Note on Patches/Pull Requests
 Copyright
 ---------
 
-© 2010 Lars Kuhnt (<http://saulabs.net>). 
+© 2010 Lars Kuhnt (<http://saulabs.net>).
 
 See LICENSE for details.
