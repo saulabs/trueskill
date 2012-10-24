@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - 1.9.3
+script: "rake spec"
+notifications:
+  campfire: sauspiel:e9ff6014f9b1603dfc41627881a111d49f5e1c53@113464
