@@ -6,6 +6,8 @@ trueskill is a rating-system for games with an arbitrary number of teams and pla
 Usage
 -----
 
+### Factor Graph
+
 Example:
 
     require 'rubygems'
@@ -25,6 +27,38 @@ Example:
 
     # update the Ratings
     graph.update_skills
+    
+
+### Score Based Bayesian Rating
+
+As an extension of the basic TrueSkill algorithm, a score based Bayesian rating method
+is implemented. Similar to the standard approach, the actual skill is updated based on
+the outcome of the game. Instead of ranks, the score difference of playes determines
+the skill updates.
+
+The approach implemented is a generalization of the Gaussian Score Difference model as proposed in
+[Score-based Bayesian Skill Learning](http://users.cecs.anu.edu.au/~sguo/sbsl_ecml2012.pdf).
+
+Example:
+
+    require 'rubygems'
+    require 'saulabs/trueskill'
+
+    include Saulabs::TrueSkill
+
+    # team 1 has just one player with a mean skill of 27.1, a skill-deviation of 2.13
+    # and an play activity of 100 %
+    team1 = [Rating.new(27.1, 2.13, 1.0)]
+
+    # team 2 has two players
+    team2 = [Rating.new(22.0, 0.98, 0.8), Rating.new(31.1, 5.33, 0.9)]
+
+    # team 1 wins by 10 points against team 2
+    graph = ScoreBasedBayesianRating.new(team1 => 10.0, team2 => -10.0)
+
+    # update the Ratings
+    graph.update_skills
+
 
 Installation
 ------------
@@ -45,7 +79,8 @@ Known issues
 Plans
 -----
 
-*
+* Generalize the method from the team vs team case to a general case with arbitrary number of teams
+
 
 Note on Patches/Pull Requests
 -----------------------------
