@@ -18,7 +18,7 @@ module Saulabs
         @tau = value
         @tau_squared = value**2
       end
-      
+
     end
     
   end

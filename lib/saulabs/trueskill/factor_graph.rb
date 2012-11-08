@@ -101,6 +101,7 @@ module Saulabs
       #
       # @return [Float] the probability of the games outcome
       def update_skills
+        #puts " vorher = #{@layers.map(&:input).inspect}}"
         build_layers
         run_schedule
         @teams.each_with_index do |team, i|
@@ -109,6 +110,7 @@ module Saulabs
           end
         end
         ranking_probability
+
       end
 
     private
@@ -137,6 +139,7 @@ module Saulabs
           layer.input = output
           layer.build
           output = layer.output
+
         end
       end
 
