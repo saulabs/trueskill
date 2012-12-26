@@ -15,10 +15,11 @@ module Saulabs
         end
         
         def update_message_at(index)
-          raise "illegal message index: #{index}" if index < 0 || index > 1
           case index
           when 0 then update_helper(@messages[0], @messages[1], @variables[0], @variables[1])
           when 1 then update_helper(@messages[1], @messages[0], @variables[1], @variables[0])
+          else
+            raise "illegal message index: #{index}"
           end
         end
         

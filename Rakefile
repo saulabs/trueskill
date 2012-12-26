@@ -5,17 +5,13 @@ require 'bundler'
 Bundler.setup
 Bundler.require
 
-require 'spec/rake/spectask'
+require "rspec/core/rake_task"
 
 desc 'Default: run specs.'
 task :default => :spec
 
 desc 'Run the specs'
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.rcov_opts  << '--exclude "gems/*,spec/*"'
-  t.rcov       = true
-  t.rcov_dir   = 'doc/coverage'
-  t.spec_files = FileList['spec/**/*_spec.rb']
+RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 YARD::Rake::YardocTask.new(:doc) do |t|

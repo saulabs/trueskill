@@ -4,7 +4,8 @@ require 'pp'
 require File.expand_path(File.join(File.dirname(__FILE__), "gauss.rb"))
 
 %w(
-  base greater_than
+  base 
+  greater_than
   likelihood
   prior
   weighted_sum
@@ -37,6 +38,7 @@ end
 %w(
   rating
   factor_graph
+  score_based_bayesian_rating
 ).each do |name|
   require File.expand_path(File.join(File.dirname(__FILE__), "trueskill", "#{name}.rb"))
 end
