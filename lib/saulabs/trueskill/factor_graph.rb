@@ -72,13 +72,15 @@ module Saulabs
         opts = {
             :beta => 25/6.0,
             :draw_probability => 0.1,
-            :skills_additive => true
+            :skills_additive => true,
+            :max_delta => 0.0001
           }.merge(options)
 
         @beta = opts[:beta]
         @draw_probability = opts[:draw_probability]
         @beta_squared = @beta**2
         @epsilon = -Math.sqrt(2.0 * @beta_squared) * Gauss::Distribution.inv_cdf((1.0 - @draw_probability) / 2.0)
+        @max_delta = opts[:max_delta]
         @skills_additive = opts[:skills_additive]
 
         @prior_layer = Layers::PriorToSkills.new(self, @teams)
@@ -88,7 +90,8 @@ module Saulabs
           Layers::PerformancesToTeamPerformances.new(self, @skills_additive),
           Layers::IteratedTeamPerformances.new(self,
             Layers::TeamPerformanceDifferences.new(self),
-            Layers::TeamDifferenceComparision.new(self, @ranks)
+            Layers::TeamDifferenceComparision.new(self, @ranks),
+            @max_delta
           )
         ]
       end
