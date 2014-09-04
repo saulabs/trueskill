@@ -188,3 +188,16 @@ describe Gauss::Distribution, "#replace" do
   end
   
 end
+
+describe Gauss::Distribution, "#==" do
+  let(:distribution) { Gauss::Distribution.with_deviation(25.0, 8.333333) }
+  
+  it "should be reflexive" do
+    distribution.should == distribution
+  end
+
+  it "should not equal any object of another class" do
+    distribution.should_not == Object.new
+  end
+  
+end
