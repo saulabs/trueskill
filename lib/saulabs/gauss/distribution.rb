@@ -131,6 +131,7 @@ module Saulabs
       end
     
       def ==(other)
+        return false unless other.kind_of?(self.class)
         self.mean == other.mean && self.variance == other.variance
       end
   
